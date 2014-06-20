@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<phpunit bootstrap="./tests/bootstrap.php"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 stopOnFailure="false">
+	<testsuites>
+		<testsuite name="Unit">
+			<directory>./tests</directory>
+		</testsuite>
+	</testsuites>
+	<!-- Whitelist for code coverage reports -->
+	<filter>
+		<whitelist>
+			<file>DbCommand.php</file>
+			<file>DbConnection.php</file>
+		</whitelist>
+	</filter>
+</phpunit>

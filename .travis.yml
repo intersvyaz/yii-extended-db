@@ -2,8 +2,13 @@ language: php
 php:
   - 5.5
   - 5.4
-  - hhvm
 
-before_script:
-  - composer install --dev
-script: cd tests/ && ../vendor/bin/phpunit -c phpunit.xml .
+install:
+  - composer self-update
+  - composer install --dev --prefer-dist
+
+script: ./vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
