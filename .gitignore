@@ -2,3 +2,4 @@ vendor/
 .idea/
 tests/test.db
 composer.lock
+coverage.clover
