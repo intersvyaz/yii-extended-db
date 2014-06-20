@@ -5,11 +5,10 @@
 	"homepage": "https://github.com/intersvyaz/yii-extended-db",
 	"license": "MIT",
 	"require": {
-		"php": ">=5.4.0",
-		"yiisoft/yii": ">=1.1.5"
+		"php": ">=5.4.0"
 	},
 	"require-dev": {
-		"yiisoft/yii": "1.1.14",
+		"yiisoft/yii": "1.1.*",
 		"phpunit/phpunit": "4.1.*"
 	},
 	"autoload": {
