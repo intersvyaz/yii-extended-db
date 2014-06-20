@@ -13,17 +13,16 @@ class DbConnection extends CDbConnection
 	protected function open()
 	{
 		parent::open();
-		$event = new CModelEvent($this);
-		$this->onAfterOpen($event);
 
-		return $event->isValid;
+		if($this->hasEventHandler('onAfterOpen'))
+			$this->onAfterOpen(new CEvent($this));
 	}
 
 	/**
 	 * This event is raised after the connection open
-	 * @param $event
+	 * @param CEvent $event
 	 */
-	public function onAfterOpen($event)
+	public function onAfterOpen(CEvent $event)
 	{
 		$this->raiseEvent('onAfterOpen', $event);
 	}
