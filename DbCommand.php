@@ -138,6 +138,7 @@ class DbCommand extends \CDbCommand
 	{
 		if (array_key_exists($paramName, $params)) {
 			$param = $params[$paramName];
+			$value = null;
 			if (is_array($param) && array_key_exists('bind', $param)) {
 				$bind = $param['bind'];
 				if ($param['bind'] !== false) {

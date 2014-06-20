@@ -209,4 +209,18 @@ class DbCommandTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($returnQuery, $method->invokeArgs($cmd, [$query, $comment, $queryInComment, $paramName, &$params]));
 	}
+
+	/**
+	 * @expectedException \PHPUnit_Framework_Error
+	 */
+	public function testFileGetNotExists()
+	{
+		$command =  new DbCommand(Yii::app()->db, __DIR__ . '/fakes/file_not_exists.sql');
+	}
+
+	public function testFileGet()
+	{
+		$command =  new DbCommand(Yii::app()->db, __DIR__ . '/fakes/list.sql');
+		$this->assertEquals('select 1 from dual where 1=1 /*id AND id=:id*/', $command->getText());
+	}
 }

@@ -1,0 +1,1 @@
+select 1 from dual where 1=1 /*id AND id=:id*/
