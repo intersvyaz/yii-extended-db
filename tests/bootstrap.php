@@ -3,6 +3,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/../vendor/yiisoft/yii/framework/yiit.php');
 
 Yii::setPathOfAlias('extdb', realpath(__DIR__ . '/../'));
+Yii::$enableIncludePath = false;	// For PhpUnit classes
 Yii::import('extdb.*');
 
 $config = array(
