@@ -20,9 +20,8 @@ namespace Intersvyaz\ExtendedDb;
  * from dual
  * </pre>
  *
- * TODO: Возможность биндить массивы вне блоков комментариев.
+ * @TODO: Возможность биндить массивы вне блоков комментариев.
  *
- * @package components
  */
 class DbCommand extends \CDbCommand
 {
@@ -31,7 +30,7 @@ class DbCommand extends \CDbCommand
 	 * @param mixed $query SQL statement or sql file path to be executed.
 	 * @param array $params Параметры построения запроса.
 	 */
-	public function __construct(DbConnection $connection, $query, $params = null)
+	public function __construct(DbConnection $connection, $query = null, $params = null)
 	{
 		parent::__construct($connection, is_array($query) ? $query : []);
 		if (!is_array($query))
@@ -62,7 +61,7 @@ class DbCommand extends \CDbCommand
 	 * @param array $params Параметры построения запроса.
 	 * @return array
 	 */
-	public function simplifyParams($params)
+	protected function simplifyParams($params)
 	{
 		if (empty($params)) {
 			return $params;
