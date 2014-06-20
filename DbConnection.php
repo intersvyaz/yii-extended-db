@@ -1,11 +1,11 @@
 <?php
-
+namespace Intersvyaz\ExtendedDb;
 /**
  * DBConnection
  * Расширение стандартного класса соединения с БД.
  * Позволяет биндить и раскомментировать код в SQL запросах.
  */
-class DbConnection extends CDbConnection
+class DbConnection extends \CDbConnection
 {
 	/**
 	 * @inheritdoc
@@ -15,14 +15,14 @@ class DbConnection extends CDbConnection
 		parent::open();
 
 		if($this->hasEventHandler('onAfterOpen'))
-			$this->onAfterOpen(new CEvent($this));
+			$this->onAfterOpen(new \CEvent($this));
 	}
 
 	/**
 	 * This event is raised after the connection open
-	 * @param CEvent $event
+	 * @param \CEvent $event
 	 */
-	public function onAfterOpen(CEvent $event)
+	public function onAfterOpen(\CEvent $event)
 	{
 		$this->raiseEvent('onAfterOpen', $event);
 	}

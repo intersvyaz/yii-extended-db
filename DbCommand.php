@@ -1,5 +1,5 @@
 <?php
-
+namespace Intersvyaz\ExtendedDb;
 /**
  * Класс команды базы данных, расширяет стандартный класс CDbCommand.
  *
@@ -24,14 +24,14 @@
  *
  * @package components
  */
-class DbCommand extends CDbCommand
+class DbCommand extends \CDbCommand
 {
 	/**
-	 * @param CDbConnection $connection Соединение с базой.
+	 * @param DbConnection $connection Соединение с базой.
 	 * @param mixed $query SQL statement or sql file path to be executed.
 	 * @param array $params Параметры построения запроса.
 	 */
-	public function __construct(CDbConnection $connection, $query, $params = null)
+	public function __construct(DbConnection $connection, $query, $params = null)
 	{
 		parent::__construct($connection, is_array($query) ? $query : []);
 		if (!is_array($query))

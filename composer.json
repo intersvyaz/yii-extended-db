@@ -12,6 +12,6 @@
 		"phpunit/phpunit": "4.1.*"
 	},
 	"autoload": {
-		"classmap": ["DbCommand.php", "DbConnection.php"]
+		"psr-4": {"Intersvyaz\\ExtendedDb\\": ""}
 	}
 }

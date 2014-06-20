@@ -1,6 +1,15 @@
 <?php
+namespace Intersvyaz\ExtendedDb\tests;
 
-class DbCommandTest extends PHPUnit_Framework_TestCase
+use Intersvyaz\ExtendedDb\DbCommand as DbCommand;
+use Yii;
+use PDO;
+use ReflectionMethod;
+
+/**
+ * @coversDefaultClass \Intersvyaz\ExtendedDb\DbCommand
+ */
+class DbCommandTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @return DbCommand
@@ -9,8 +18,9 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 	{
 		return new DbCommand(Yii::app()->db, '');
 	}
+
 	/**
-	 * @covers DbCommand::simplifyParams
+	 * @covers ::simplifyParams
 	 */
 	public function testSimplifyParams()
 	{
@@ -36,21 +46,21 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 
 		$cmd = $this->makeCommand();
 
-		$method = new ReflectionMethod('DbCommand', 'simplifyParams');
+		$method = new ReflectionMethod('\Intersvyaz\ExtendedDb\DbCommand', 'simplifyParams');
 		$method->setAccessible(true);
 
 		$this->assertEquals($simplifiedParams, $method->invoke($cmd, $params));
 	}
 
 	/**
-	 * @covers DbCommand::bindValues
+	 * @covers ::bindValues
 	 */
 	public function testBindValues()
 	{
 		$query = "SELECT 1 FROM dual WHERE :foo = 'bar'";
 		$values = ['foo' => 'bar'];
 
-		$mock = $this->getMock('DbCommand', ['simplifyParams'], [Yii::app()->db, $query]);
+		$mock = $this->getMock('\Intersvyaz\ExtendedDb\DbCommand', ['simplifyParams'], [Yii::app()->db, $query]);
 
 		$mock->expects($this->once())
 			->method('simplifyParams')
@@ -60,9 +70,6 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 		$mock->bindValues($values);
 	}
 
-	/**
-	 * @covers DbCommand::bindParams
-	 */
 	public function testBindParams()
 	{
 		$params = [
@@ -76,7 +83,7 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 			'complexNameArrayFull' => ['bind' => true, 'value' => [4, 5, 6, 7], 'type' => PDO::PARAM_BOOL, 'length' => 31337],
 		];
 
-		$mock = $this->getMock('DbCommand', ['bindParam'], [Yii::app()->db, '']);
+		$mock = $this->getMock('\Intersvyaz\ExtendedDb\DbCommand', ['bindParam'], [Yii::app()->db, '']);
 
 		$i = 0;
 		foreach ($params as $key => $value) {
@@ -115,13 +122,13 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DbCommand::prepareSql
+	 * @covers ::prepareSql
 	 */
 	public function testPrepareSqlClearExtraNewLines()
 	{
 		$cmd = $this->makeCommand();
 
-		$method = new ReflectionMethod('DbCommand', 'prepareSql');
+		$method = new ReflectionMethod('\Intersvyaz\ExtendedDb\DbCommand', 'prepareSql');
 		$method->setAccessible(true);
 
 		$query = "\n\n\n\n\n";
@@ -131,12 +138,12 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DbCommand::prepareSql
+	 * @covers ::prepareSql
 	 */
 	public function testPrepareSql()
 	{
-		$mock = $this->getMock('DbCommand', ['replaceComment'], [Yii::app()->db, '']);
-		$method = new ReflectionMethod('DbCommand', 'prepareSql');
+		$mock = $this->getMock('\Intersvyaz\ExtendedDb\DbCommand', ['replaceComment'], [Yii::app()->db, '']);
+		$method = new ReflectionMethod('\Intersvyaz\ExtendedDb\DbCommand', 'prepareSql');
 		$method->setAccessible(true);
 
 		$params = ['foo' => 'bar'];
@@ -183,41 +190,23 @@ class DbCommandTest extends PHPUnit_Framework_TestCase
 			['begin /*notInParams sql */ end', '/*notInParams sql */', ' sql ', 'notInParams', [], 'begin  end'],
 			['begin /*param1 sql */ end', '/*param1 sql */', ' sql ', 'param1', ['param1' => 'foobar'], 'begin  sql  end'],
 			['begin /*param2 sql */ end', '/*param2 sql */', ' sql ', 'param2', ['param2' => 'foobar'], 'begin  sql  end'],
-			['begin /*param3 :@param */ end', '/*param3 :@param */', ' :@param3 ', 'param3', ['param3' => [4,5,6]], 'begin  :param3_0,:param3_1,:param3_2  end'],
-			['begin /*param4 :@param */ end', '/*param4 :@param */', ' :@param4 ', 'param4', ['param4' => ['bind' => true, 'value' => [4,5,6]]], 'begin  :param4_0,:param4_1,:param4_2  end'],
+			['begin /*param3 :@param */ end', '/*param3 :@param */', ' :@param3 ', 'param3', ['param3' => [4, 5, 6]], 'begin  :param3_0,:param3_1,:param3_2  end'],
+			['begin /*param4 :@param */ end', '/*param4 :@param */', ' :@param4 ', 'param4', ['param4' => ['bind' => true, 'value' => [4, 5, 6]]], 'begin  :param4_0,:param4_1,:param4_2  end'],
 			['begin /*param5 count(*) */ end', '/*param5 count(*) */', ' count(*) ', 'param5', ['param5' => ['bind' => false]], 'begin  count(*)  end'],
 			['begin /*OLOLO OLOLO */ end', '/*OLOLO OLOLO */', ' OLOLO ', 'OLOLO', ['OLOLO' => ['bind' => 'text', 'value' => 'WOLOLO']], 'begin  WOLOLO  end'],
 		];
 	}
 
 	/**
-	 * @covers DbCommand::replaceComment
+	 * @covers ::replaceComment
 	 * @dataProvider replaceCommentData
 	 */
 	public function testReplaceComment($query, $comment, $queryInComment, $paramName, $params, $returnQuery)
 	{
 		$cmd = $this->makeCommand();
-		$method = new ReflectionMethod('DbCommand', 'replaceComment');
+		$method = new ReflectionMethod('\Intersvyaz\ExtendedDb\DbCommand', 'replaceComment');
 		$method->setAccessible(true);
 
 		$this->assertEquals($returnQuery, $method->invokeArgs($cmd, [$query, $comment, $queryInComment, $paramName, &$params]));
 	}
-
-// @todo Сделать тест работающим для sqlite
-//	public function testBindParamsValueByReference()
-//	{
-//		$bindParams = [
-//			'value' => ['bind' => true, 'value' => 777, 'length' => 32],
-//		];
-//
-//		$cmd = new DbCommand(Yii::app()->db, '
-//			BEGIN
-//				SELECT 31337 INTO :value FROM dual;
-//			END;
-//		');
-//
-//		$cmd->bindParams($bindParams)->execute();
-//
-//		$this->assertEquals(31337, $bindParams['value']['value']);
-//	}
 }

@@ -1,6 +1,11 @@
 <?php
+namespace Intersvyaz\ExtendedDb\tests;
 
-class DbConnectionTest extends PHPUnit_Framework_TestCase
+use Yii;
+/**
+ * @coversDefaultClass \Intersvyaz\ExtendedDb\DbConnection
+ */
+class DbConnectionTest extends \PHPUnit_Framework_TestCase
 {
 	protected $afterOpened;
 
@@ -26,6 +31,6 @@ class DbConnectionTest extends PHPUnit_Framework_TestCase
 	public function testCreateCommand()
 	{
 		$command = Yii::app()->db->createCommand();
-		$this->assertInstanceOf('DbCommand', $command);
+		$this->assertInstanceOf('Intersvyaz\ExtendedDb\DbCommand', $command);
 	}
 }
