@@ -1,0 +1,15 @@
+{
+	"name": "intersvyaz/yii-extdb",
+	"description": "Extended Yii database class with cool stuff",
+	"keywords": ["yii", "extension", "database"],
+	"homepage": "https://git.is74.ru/yiiext/extdb",
+	"license": "proprietary",
+	"require": {
+		"php": ">=5.4.0",
+		"yiisoft/yii": ">=1.1.5"
+	},
+	"require-dev": {
+		"yiisoft/yii": "1.1.14",
+		"phpunit/phpunit": "4.1.*"
+	}
+}
