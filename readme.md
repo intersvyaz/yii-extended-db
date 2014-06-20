@@ -1,8 +1,8 @@
-yii-extdb
+yii-extended-db
 ==========
 
-[![Build Status](https://travis-ci.org/intersvyaz/yii-extdb.svg?branch=master)](https://travis-ci.org/intersvyaz/yii-extdb)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/intersvyaz/yii-extdb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/intersvyaz/yii-extdb/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/intersvyaz/yii-extdb/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/intersvyaz/yii-extdb/?branch=master)
+[![Build Status](https://travis-ci.org/intersvyaz/yii-extended-db.svg?branch=master)](https://travis-ci.org/intersvyaz/yii-extended-db)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/?branch=master)
 
 Extend Yii CDbConnection and CDbCommand for extend parsing sql query
