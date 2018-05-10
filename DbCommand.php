@@ -102,7 +102,7 @@ class DbCommand extends \CDbCommand
 		}
 
 		// Разбор многострочных комментариев
-		if (preg_match_all('#/\*(\w+)(.+?)\*/#s', $query, $matches)) {
+		if (preg_match_all('#/\*([\w|]+)(.+?)\*/#s', $query, $matches)) {
 			$count = count($matches[0]);
 			for ($i = 0; $i < $count; $i++) {
 				$query = $this->replaceComment($query, $matches[0][$i], $matches[2][$i], $matches[1][$i], $params);
@@ -111,7 +111,7 @@ class DbCommand extends \CDbCommand
 
 		// Многоитерационный разбор однострчных комментариев
 		while (true) {
-			if (preg_match_all('#--\*(\w+)(.+)#', $query, $matches)) {
+			if (preg_match_all('#--\*([\w|]+)(.+)#', $query, $matches)) {
 				$count = count($matches[0]);
 				for ($i = 0; $i < $count; $i++) {
 					$query = $this->replaceComment($query, $matches[0][$i], $matches[2][$i], $matches[1][$i], $params);
@@ -135,7 +135,20 @@ class DbCommand extends \CDbCommand
 	 */
 	protected function replaceComment($query, $comment, $queryInComment, $paramName, &$params)
 	{
-		if (array_key_exists($paramName, $params)) {
+		if (strpos($paramName, '|')) {
+			$found = false;
+
+			foreach (explode('|', $paramName) as $param) {
+				if (array_key_exists($param, $params)) {
+					$found = true;
+					break;
+				}
+			}
+
+			if (!$found) {
+				$queryInComment = '';
+			}
+		} elseif (array_key_exists($paramName, $params)) {
 			$param = $params[$paramName];
 			$value = null;
 			if (is_array($param) && array_key_exists('bind', $param)) {
