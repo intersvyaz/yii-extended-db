@@ -136,6 +136,15 @@ class DbCommand extends \CDbCommand
 	protected function replaceComment($query, $comment, $queryInComment, $paramName, &$params)
 	{
 		$paramNameLower = mb_strtolower($paramName);
+
+		// Формируем имя параметра точно такое же, какое и забиндено в парметры.
+		foreach ($params as $key => $value) {
+			if (mb_strtolower($key) == $paramNameLower) {
+				$paramName = $key;
+				break;
+			}
+		}
+
 		$params = array_change_key_case($params, CASE_LOWER);
 
 		if (strpos($paramNameLower, '|')) {
