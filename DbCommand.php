@@ -135,10 +135,13 @@ class DbCommand extends \CDbCommand
 	 */
 	protected function replaceComment($query, $comment, $queryInComment, $paramName, &$params)
 	{
-		if (strpos($paramName, '|')) {
+		$paramNameLower = mb_strtolower($paramName);
+		$params = array_change_key_case($params, CASE_LOWER);
+
+		if (strpos($paramNameLower, '|')) {
 			$found = false;
 
-			foreach (explode('|', $paramName) as $param) {
+			foreach (explode('|', $paramNameLower) as $param) {
 				if (array_key_exists($param, $params)) {
 					$found = true;
 					break;
@@ -148,8 +151,8 @@ class DbCommand extends \CDbCommand
 			if (!$found) {
 				$queryInComment = '';
 			}
-		} elseif (array_key_exists($paramName, $params)) {
-			$param = $params[$paramName];
+		} elseif (array_key_exists($paramNameLower, $params)) {
+			$param = $params[$paramNameLower];
 			$value = null;
 			if (is_array($param) && array_key_exists('bind', $param)) {
 				$bind = $param['bind'];
@@ -167,9 +170,9 @@ class DbCommand extends \CDbCommand
 					$valArr[] = ':' . $paramName . '_' . $keyVal;
 				}
 				$replacement = implode(',', $valArr);
-				$queryInComment = preg_replace('/:@' . preg_quote($paramName) . '/', $replacement, $queryInComment);
+				$queryInComment = preg_replace('/:@' . preg_quote($paramName) . '/i', $replacement, $queryInComment);
 			} elseif ($bind === 'text') {
-				$queryInComment = preg_replace('/' . preg_quote($paramName) . '/', $value, $queryInComment);
+				$queryInComment = preg_replace('/' . preg_quote($paramName) . '/i', $value, $queryInComment);
 			}
 		} else {
 			$queryInComment = '';
