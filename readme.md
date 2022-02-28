@@ -6,4 +6,4 @@ yii-extended-db
 [![Code Coverage](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/intersvyaz/yii-extended-db/?branch=master)
 
 
-Extend Yii CDbConnection and CDbCommand for extend parsing sql query!
+Extend Yii CDbConnection and CDbCommand for extend parsing sql query
