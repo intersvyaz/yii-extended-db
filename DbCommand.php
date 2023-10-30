@@ -248,7 +248,9 @@ class DbCommand extends \CDbCommand
 
         foreach ($params as $key => &$value) {
             if (is_array($value) && array_key_exists('bind', $value)) {
-                if ($value['bind'] == true) {
+                // Биндим, только если там явно прописано, что надо биндить.
+                // "text" (подстановку текста) биндить не нужно, в ПГ это вызывает ошибку.
+                if ($value['bind'] === true) {
                     $type = array_key_exists('type', $value) ? $value['type'] : null;
                     $length = array_key_exists('length', $value) ? $value['length'] : null;
                     if ($length && is_null($type) && !is_array($value['value'])) {
